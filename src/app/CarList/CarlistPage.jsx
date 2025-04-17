@@ -22,11 +22,11 @@ import { useAllCarsUser } from "@/hooks/QueryHooks/useCars";
 import { useEffect, useState } from "react";
 
 export default function CarListPage() {
-  const { search, carMakes, category, sort, fuleType } = useFilterContext();
+  const { search, carMakes, category, sort, fuleType, showroom } = useFilterContext();
 
-  const { data, isLoading, error, isError } = useAllCarsUser();
   const [carData, setCardata] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading, error, isError } = useAllCarsUser(currentPage, 10);
 
   useEffect(() => {
     if (data && data.data) {
@@ -38,11 +38,13 @@ export default function CarListPage() {
   const filteredData = carData.filter((car) => {
     return (
       car.make.toLowerCase().includes(search.toLowerCase()) &&
-      (category.length === 0 || category.includes(car.category)) &&
-      (carMakes.length === 0 || carMakes.includes(car.make)) &&
-      (fuleType.length === 0 || fuleType === 'all' || fuleType  === car.fuel_type)
+      (category.length === 0 || category.map(c => c.toLowerCase()).includes(car.category.toLowerCase())) &&
+      (carMakes.length === 0 || carMakes.map(m => m.toLowerCase()).includes(car.make.toLowerCase())) &&
+      (fuleType.length === 0 || fuleType.toLowerCase() === 'all' || fuleType.toLowerCase() === car.fuel_type.toLowerCase()) &&
+      (showroom.length === 0 || showroom.toLowerCase() === 'all' || showroom.toLowerCase() === car.showroomId._id.toLowerCase())
     );
   });
+  
   const sortedData = filteredData.sort((a, b) => {
     if (sort === "Price") {
       return a.daily_rate.$numberDecimal - b.daily_rate.$numberDecimal; // Sort by price (ascending)

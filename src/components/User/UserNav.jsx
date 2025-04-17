@@ -40,7 +40,7 @@ function UserNav() {
       <div className="flex items-center space-x-4">
         <Link to={'/user/notification'} className=" rounded-full relative">
           <Notification03Icon />
-          {data?.data?.count > 0 && <div className='size-3.5 bg-red-600 absolute top-0 right-1 rounded-full text-[10px] text-white grid place-content-center'>{data?.data?.count}</div>}
+          {data?.data?.count > 0 && <div className='size-3.5 bg-red-600 absolute -top-1 right-0 rounded-full text-[10px] text-white grid place-content-center'>{data?.data?.count}</div>}
         </Link>
         {/* <Link to='/user' className="relative">
           <UserIcon  />

@@ -1,35 +1,30 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CloudUploadIcon, Delete02Icon } from "hugeicons-react";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useEditCar } from "@/hooks/QueryHooks/useCars";
+import { useEditCar, useOneCar } from "@/hooks/QueryHooks/useCars";
 import { carCategory, carSpecs } from "@/Utils/ArrayList";
 import { Loader2 } from "lucide-react";
-import { MultiSelect } from "./MultiSelect";
+import { MultiSelect } from "@/components/CarCopm/MultiSelect";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "@/components/ui/loader";
 const url = import.meta.env.VITE_API_BASE_URL
 
-export function EditPopup({ open, onOpenChange, car }) {
+export function EditCar() {
+    const { id } = useParams();
   const [files, setFiles] = useState([]);
   const { toast } = useToast();
   const [deleteImages, setDeleteImages]=useState([])
   const [errors, setErrors] = useState('');
   const [selected, setSelected] = useState([]);
-  const [isOpen, setIsOpen] = useState(false)
-  const { mutate, isPending } = useEditCar({
-    
-  });
+  const { mutate, isPending } = useEditCar();
+  const {data, isLoading, isError} = useOneCar(id)
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     make: '',
@@ -53,11 +48,11 @@ export function EditPopup({ open, onOpenChange, car }) {
   });
 
   useEffect(() => {
-    if (car) {
-      setFormData({...car,addOnCharge: car?.addOnCharge?.$numberDecimal, daily_rate: car.daily_rate.$numberDecimal, weekly_rate: car.weekly_rate.$numberDecimal, monthly_rate: car.monthly_rate.$numberDecimal});
-      setSelected(car.features);
+    if (data) {
+      setFormData({...data.data, features: [], addOnCharge: data.data?.addOnCharge?.$numberDecimal, daily_rate: data.data.daily_rate?.$numberDecimal, weekly_rate: data.data.weekly_rate.$numberDecimal, monthly_rate: data.data.monthly_rate.$numberDecimal});
+      setSelected(data.data.features);
     }
-  }, [car]);
+  }, [data]);
 
  
   const handleInputChange = (e) => {
@@ -105,6 +100,9 @@ export function EditPopup({ open, onOpenChange, car }) {
     }
 
     const newFormData = new FormData();
+    selected.forEach((item) => {
+        newFormData.append('features', item);
+      })
 
     for(const [key, value] of Object.entries(formData)){
         if(key === 'images'){
@@ -147,46 +145,43 @@ export function EditPopup({ open, onOpenChange, car }) {
         });
       },
     });
-    // onOpenChange(false);
+    
   };
 
 const handleCancel = () => {
+    navigate(-1)
     setFormData({
-      make: '',
-      model: '',
-      year: '',
-      color: '',
-      mileage: '',
-      transmission: 'automatic',
-      fuel_type: '',
-      seats: '',
-      daily_rate: '',
-      weekly_rate: '',
-      monthly_rate: '',
-      showroomId: '',
-      available: true,
-      category: '',
-      type: '',
-      addOnCharge: '',
-      features: []
+        make: '',
+        model: '',
+        year: '',
+        color: '',
+        mileage: '',
+        transmission: 'automatic',
+        fuel_type: '',
+        seats: '',
+        daily_rate: '',
+        weekly_rate: '',
+        monthly_rate: '',
+        showroomId: '',
+        images: [],
+        available: true,
+        category: '',
+        type: '',
+        addOnCharge: '',
+        features: []
     });
     setFiles([]);
     setDeleteImages([])
     setErrors('')
-    onOpenChange(false);
+    setSelected([])
 }
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 20 }, (_, i) => currentYear - i);
-
+  if(isLoading) return <div className="w-full h-full"><Loader/></div>
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] max-md:h-full overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Edit Car Details</DialogTitle>
-          <DialogDescription>
-            Update the car details below. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
+        <div className="max-w-[60rem] mx-auto">
+            <h1 className="text-2xl font-bold">Edit Car Details</h1>
+            <p className="text-sm text-muted-foreground mb-4">Please submit all details of your car</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <label
@@ -379,17 +374,16 @@ const handleCancel = () => {
             </div>
           
           {errors && <p className="text-sm text-center text-red-500">{errors}</p>}
+          <div className="flex items-center justify-center mt-4 gap-2 max-md:flex-col">
+          <div onClick={()=>navigate(-1)} className="inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 w-full border border-input bg-background hover:bg-accent hover:text-accent-foreground" >
+            Cancel Edit
+          </div>
           <Button type="submit" className="w-full">
             {isPending ? <Loader2 className="animate-spin"/>: "Save Changes"}
           </Button>
+          </div>
         </form>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Cancel
-            </Button>
-          </DialogClose>
-      </DialogContent>
-    </Dialog>
+        </div>
   );
 }
 

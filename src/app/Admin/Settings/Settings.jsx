@@ -59,10 +59,10 @@ function AdminSettings() {
       
       <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto ">
         {/* Card */}
-        <div className="bg-white rounded-xl border shadow-xs p-4 sm:p-7">
+        <div className="bg-background rounded-xl border shadow-xs p-4 sm:p-7">
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-800">Profile</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-bold text-foreground">Profile</h2>
+            <p className="text-sm text-muted-foreground">
               Manage your name, password and account settings.
             </p>
           </div>
@@ -78,7 +78,7 @@ function AdminSettings() {
               <div className="sm:col-span-9">
                 <div className="flex items-center gap-5">
                   <img
-                    className="inline-block size-16 object-cover border rounded-full ring-2 ring-white"
+                    className="inline-block size-16 object-cover border rounded-full ring-2 ring-white dark:ring-zinc-600"
                     src={url}
                     alt="Avatar"
                   />

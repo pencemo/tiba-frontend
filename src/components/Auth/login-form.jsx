@@ -56,7 +56,7 @@ export function LoginForm({
   useEffect(()=>{
     if(profile){
       if(profile.role === 'user'){
-        navigate('/user')
+        navigate('/')
       }else{
         navigate('/admin')
       }

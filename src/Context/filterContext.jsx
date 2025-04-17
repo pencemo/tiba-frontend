@@ -7,8 +7,10 @@ function FilterContext({children}) {
   const [category, setCategory]=useState([])
   const [sort, setSort]=useState('')
   const [fuleType, setFuleType]=useState('')
+  const [showroom, setShowroom]=useState([])
+  
   return (
-    <CarFilterContext.Provider value={{sort,fuleType, setFuleType, setSort, search, setSearch, carMakes, setCarMakes, category, setCategory}}>
+    <CarFilterContext.Provider value={{sort,fuleType, setFuleType,showroom, setShowroom, setSort, search, setSearch, carMakes, setCarMakes, category, setCategory}}>
         {children}
     </CarFilterContext.Provider>
   )

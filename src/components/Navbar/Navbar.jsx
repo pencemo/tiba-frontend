@@ -29,7 +29,7 @@ function Navbar() {
             </Link>
             <div className=' flex items-center gap-4 max-md:hidden'>
                 <Link to={'/'} className='line relative font-medium mx-2'>Home</Link>
-                <Link to={'/cars'} className='line relative font-medium mx-2'>Cars</Link>
+                <Link to={'/cars'} className='line relative font-medium mx-2'>All Cars</Link>
                 <Link to={'/about'} className='line relative font-medium mx-2'>About</Link>
                 {/* <Link to={'/'} className='line relative font-medium mx-2'>Services</Link> */}
                 <Link to={'/contact'} className='line relative font-medium mx-2'>Contact</Link>

@@ -1,60 +1,41 @@
-export default function CarSpecifications({ car }) {
-    // const specs = [
-    //   { label: "Transmission", value: car.transmission },
-    //   { label: "Fuel Type", value: car.fuel_type },
-    //   { label: "Seats", value: `${car.seats} seats` },
-    //   { label: "Year", value: car.year },
-    // ];
-  
-    // return (
-    //   <div className="grid grid-cols-2 gap-4 py-4 border-t">
-    //     {specs.map((spec, index) => (
-    //       <div key={index}>
-    //         <p className="text-sm text-gray-500">{spec.label}</p>
-    //         <p className="font-semibold capitalize">{spec.value}</p>
-    //       </div>
-    //     ))}
-    //   </div>
-    // );
+import { AirplaneSeatIcon, Calendar03Icon, Car01Icon, DropletIcon, PaintBoardIcon, SecurityCheckIcon, Settings02Icon } from "hugeicons-react";
 
-    const colorOfCar = { background: car.color };
+export default function CarSpecifications({ car }) {
+    const specs = [
+      { label: "Make", value: car?.make, icon: Car01Icon },
+      { label: "Model", value: car?.model, icon: Car01Icon },
+      { label: "Transmission", value: car?.transmission, icon: Settings02Icon },
+      { label: "Fuel Type", value: car?.fuel_type, icon: DropletIcon },
+      { label: "Seats", value: `${car?.seats} seats`, icon: AirplaneSeatIcon },
+      { label: "Year", value: car?.year, icon: Calendar03Icon },
+      { label: "Color", value: car?.color, icon: PaintBoardIcon },
+      { label: "Category", value: car?.category, icon: SecurityCheckIcon },
+    ];
+  
+
     return (
-      <div className="space-y-4">
-              <div className="flex space-x-8 items-center">
-                <div className="flex flex-col items-center">
-                  <p className="font-medium mb-2">Color</p>
-                  <div className="flex space-x-2">
-                    <button
-                      style={colorOfCar}
-                      className="w-6 h-6 rounded-full bg- gray-400 ring-2 ring-offset-2 ring-navy-600"
-                    />
-                  </div>
-                </div>
-                <div>
-                <p className="font-medium mb-2">Year</p>
-                  <p className="font-semibold capitalize">
-                    {car.year}
-                  </p>
-                </div>
+      <div>
+        <div className="flex  items-center gap-5 max-w-3xl">
+          <h1 className="text-xl text-nowrap uppercase text-foreground font-semibold">Car Overview</h1>
+          <div className="w-full h-[1px] bg-muted-foreground/70"></div>
+        </div>
+      
+      <div className="grid md:grid-cols-2 gap-4 py-4  max-w-3xl">
+        
+        {specs.map((spec, index) =>{
+          return (
+            <div key={index} className="border py-3 hover:bg-muted px-4 rounded-md flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <spec.icon size={20} className="text-muted-foreground" />
+                <h1 className="text-sm text-foreground capitalize">{spec.label || '-'}</h1>
               </div>
-              <div className="flex space-x-8">
-                <div>
-                  <p className="text-sm text-gray-500">Transmission</p>
-                  <p className="font-semibold capitalize">
-                    {car.transmission}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Fuel Type</p>
-                  <p className="font-semibold capitalize">
-                    {car.fuel_type}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Seats</p>
-                  <p className="font-semibold capitalize">{car.seats} seats</p>
-                </div>
-              </div>
+              <h1 className="font-medium text-foreground text-sm  capitalize">{spec.value}</h1>
             </div>
+          )
+        })}
+              
+            </div>
+            </div>
+      
     );
   }

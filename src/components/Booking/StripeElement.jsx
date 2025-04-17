@@ -8,7 +8,7 @@ const stipePubKey = import.meta.env.VITE_STRIPE_PUB_KEY;
 const stripePromise = loadStripe(stipePubKey);
 const url = import.meta.env.VITE_API_BASE_URL
 
-export default function StripeElement({car, formData, setFormData, showSuccess}) {
+export default function StripeElement({car, formData, setFormData, showSuccess, back}) {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
@@ -34,8 +34,9 @@ export default function StripeElement({car, formData, setFormData, showSuccess})
     
       <div className="grid md:grid-cols-7 gap-x-10 gap-y-5 max-w-[70rem] mx-auto my-10 px-4 sm:p-6">
         <div className="md:col-span-4">
-        
-        <div className="w-full max-w-xl mb-5 border bg-gray-50 dark:bg-zinc-800 rounded-lg overflow-hidden">
+        <div onClick={back} className="mb-2 text-foreground bg-muted inline-block px-3 cursor-pointer rounded-md">Back</div>
+        <div className="w-full min-h-44 max-w-xl mb-5 border bg-gray-50 dark:bg-zinc-800 rounded-lg overflow-hidden">
+          
         <img
           src={url+car.images[0]}
           className="object-contain w-full h-full"

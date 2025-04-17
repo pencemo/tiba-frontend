@@ -35,13 +35,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DeleteAlert } from "@/components/CarCopm/DeleteAlert";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Add01Icon } from "hugeicons-react";
 import Loader from "@/components/ui/loader";
 import { Badge } from "@/components/ui/badge";
 import { EditPopup } from "@/components/CarCopm/EditPopup";
 import { usePorfile } from "@/Context/ProfileContext";
 import imageDemo from "@/assets/no-car-placeholder.webp";
+import { Switch } from "@/components/ui/switch";
 const url = import.meta.env.VITE_API_BASE_URL
 
 function Carlist() {
@@ -57,6 +58,7 @@ function Carlist() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
   const {profile}=usePorfile()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (data && data.data) {
@@ -194,7 +196,7 @@ function Carlist() {
                 <TableHead className=" ">Daily Rate</TableHead>
                 <TableHead className=" ">Color</TableHead>
                 <TableHead className=" ">Date</TableHead>
-                {profile.role === 'admin'&& <TableHead className=" ">Status</TableHead>}
+                {profile.role === 'admin'&& <TableHead className=" ">Showroom</TableHead>}
                 <TableHead className=" ">Status</TableHead>
                 <TableHead className=" "></TableHead>
                 <TableHead className=" "></TableHead>
@@ -223,7 +225,7 @@ function Carlist() {
                   <TableCell className="">
                     {format(new Date(car.createdAt), "PP")}
                   </TableCell>
-                  <TableCell>{car.showroomId?.name || <span className="text-muted-foreground">No data</span>}</TableCell>
+                  {profile.role === 'admin'&&<TableCell>{car.showroomId?.name || <span className="text-muted-foreground">No data</span>}</TableCell>}
                   <TableCell className="">
                     {car.available ? (
                       <Badge variant={"outline"}>Available</Badge>
@@ -232,15 +234,15 @@ function Carlist() {
                     )}
                   </TableCell>
                   <TableCell className="">
-                    <button
-                      className="text-background bg-foreground border py-0.5 px-3 rounded-md"
+                    <Button
+                      variant="outline"
+                      size='sm'
                       onClick={() => {
-                        setSelectedCar(car);
-                        setIsEditOpen(true);
+                        navigate(`edit/${car._id}`)
                       }}
                     >
                       Edit Car
-                    </button>
+                    </Button>
                   </TableCell>
                   <TableCell className="">
                     <DeleteAlert deleteFn={() => handleSubmit(car._id)} />
@@ -253,7 +255,7 @@ function Carlist() {
                           <MoreHorizontal />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="min-w-40">
+                      <DropdownMenuContent align="end" className="min-w-40 p-4">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                           onClick={() => navigator.clipboard.writeText(car._id)}
@@ -261,9 +263,15 @@ function Carlist() {
                           Copy Car ID
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => handleStatusChage(car._id, car.available)}
+                          // onClick={() => handleStatusChage(car._id, car.available)}
                         >
+                          <div className="flex items-center gap-4">
                           Change status
+                          <Switch
+                            checked={car.available}
+                            onCheckedChange={() => handleStatusChage(car._id, car.available)}
+                          />
+                          </div>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -272,13 +280,13 @@ function Carlist() {
               ))}
             </TableBody>
           </Table>
-          {isEditOpen && (
+          {/* {isEditOpen && (
             <EditPopup
               open={isEditOpen}
               onOpenChange={setIsEditOpen}
               car={selectedCar}
             />
-          )}
+          )} */}
         </div>
         <div className="flex items-center justify-between">
           <div className="text-zinc-700">

@@ -45,7 +45,7 @@ const links = [
 const links2 = [
   {
     title: "Customer Support",
-    link: "/support",
+    link: "/contact",
   },
   {
     title: "Delivery Details",
@@ -135,7 +135,7 @@ const Footer = () => {
               Subscribe to newsletter
             </p>
 
-            <form className="mt-6">
+            <div className="mt-6">
               <div>
                 <label htmlFor="email" className="sr-only">
                   Email
@@ -150,12 +150,11 @@ const Footer = () => {
               </div>
 
               <button
-                type="submit"
                 className="inline-flex items-center justify-center px-6 py-3 mt-3 font-semibold text-white transition-all duration-200 bg-zinc-600 rounded-md hover:bg-zinc-700 focus:bg-zinc-700"
               >
                 Subscribe
               </button>
-            </form>
+            </div>
           </div>
         </div>
 

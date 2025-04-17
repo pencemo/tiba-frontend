@@ -59,7 +59,7 @@ export function Enquires() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.data.map((message, i) => (
+              {data?.data?.map((message, i) => (
                 <TableRow key={i} >
                   <TableCell className="font-medium h-14">{i + 1}</TableCell>
                   <TableCell className="font-medium">{message.name}</TableCell>

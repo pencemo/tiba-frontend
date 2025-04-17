@@ -60,7 +60,7 @@ export function AllBooking() {
   return (
     <div className="max-w-[85rem] w-full p-3 mx-auto ">
       <AdminCard data={data.data} bookings={data.totalBookings}/>
-      {data.data.length > 0 ? <div className="space-y-4">
+      {data?.data?.length > 0 ? <div className="space-y-4">
         <div className="flex justify-between items-center">
           <Input
             type="text"

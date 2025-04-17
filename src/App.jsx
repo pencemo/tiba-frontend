@@ -23,17 +23,27 @@ import {Enquires} from "./app/Admin/enquire/Enquires";
 import UserNotification from "./app/User/userNotifications";
 import Forgot from "./app/login/Forgot";
 import AdminSettings from "./app/Admin/Settings/Settings";
+import TermsPage from "./Pages/TermsPage";
+import FilterContext from "./Context/filterContext";
+import PrivacyPage from "./Pages/PrivacyPage";
+import { EditCar } from "./app/Admin/Cars/EditCar";
+import DeliveryTerms from "./Pages/DeliveryPage";
+import { ScrollToTop } from "./lib/scrollTop";
 
 function App() {
   
   return (
       <HashRouter>
+        <ScrollToTop/>
         <Routes>
           {/* pages  */}
           <Route index element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/cars" element={<CarListPage />} />
+          <Route path="/cars" element={<FilterContext><CarListPage /></FilterContext>} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/delivery" element={<DeliveryTerms />} />
 
           {/* auth  */}
           <Route path="/login" element={<Login />} />
@@ -53,6 +63,7 @@ function App() {
             <Route path="manage-cars" >
               <Route index element={<Carlist />} />
               <Route path="add-car" element={<Protect requiredRole={['subadmin']}><AddCars /></Protect>} />
+              <Route path="edit/:id" element={<Protect requiredRole={['subadmin']}><EditCar /></Protect>} />
             </Route>
           </Route>
 

@@ -9,11 +9,12 @@ import { CloudUploadIcon, Delete02Icon } from "hugeicons-react"
 import { useCarMutation } from "@/hooks/QueryHooks/useCars"
 import { useToast } from "@/hooks/use-toast"
 import { usePorfile } from "@/Context/ProfileContext"
-import { carCategory } from "@/Utils/ArrayList"
+import { carCategory, carSpecs } from "@/Utils/ArrayList"
 import { Loader2 } from "lucide-react"
 import { Separator } from "../ui/separator"
 import { useNavigate } from "react-router-dom"
 import { HiMiniArrowLeft } from "react-icons/hi2"
+import { MultiSelect } from "./MultiSelect"
 
 export default function CarUploadForm() {
   const [images, setImages] = useState([])
@@ -21,6 +22,7 @@ export default function CarUploadForm() {
   const {toast} = useToast()
   const {profile}=usePorfile()
   const [errors, setErrors] = useState('')
+  const [selected, setSelected] = useState([])
 
   const {mutate, isPending} = useCarMutation()
   const [formData, setFormData] = useState({
@@ -37,7 +39,10 @@ export default function CarUploadForm() {
     weekly_rate: '',
     monthly_rate: '',
     available: true,
-    category: ''
+    category: '',
+    type: '',
+    addOnCharge: '',
+    features: []
   })
 
   const handleInputChange = (e) => {
@@ -97,6 +102,9 @@ export default function CarUploadForm() {
 
      // Create a new FormData object
      const formDataToSend = new FormData();
+     selected.forEach((item) => {
+       formDataToSend.append('features', item);
+     })
     
      // Append form data
      Object.keys(formData).forEach(key => {
@@ -107,9 +115,8 @@ export default function CarUploadForm() {
      images.forEach((image) => {
          formDataToSend.append('files', image);
      });
-
     mutate(formDataToSend, {
-      onSuccess: (data) => {
+      onSuccess: (data) => { 
         if(data.success){
           toast({
             title: "Success",
@@ -130,6 +137,7 @@ export default function CarUploadForm() {
 
   const handleCancel = () => {
     setImages([])
+    setSelected([])
     setFormData({
       make: '',
       model: '',
@@ -145,7 +153,8 @@ export default function CarUploadForm() {
       showroomId: '',
       images: [], // This will hold the file names
       available: true,
-      category: ''
+      category: '',
+      type: ''
     })
   }
 
@@ -242,7 +251,7 @@ export default function CarUploadForm() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="mileage">Mileage</Label>
               <Input
@@ -264,6 +273,20 @@ export default function CarUploadForm() {
                 type="number"
                 placeholder="e.g. 5"
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="type">Type</Label>
+              <Select name="type" value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
+                <SelectTrigger >
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Basic">Basic Car</SelectItem>
+                  <SelectItem value="Middle-Class">Middle-Class Car</SelectItem>
+                  <SelectItem value="Premium">Premium Car</SelectItem>
+                  <SelectItem value="Luxury">Luxury Cars</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
           </div>
@@ -313,6 +336,26 @@ export default function CarUploadForm() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            
+          </div>
+
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="addOnCharge">Add on charge /km</Label>
+              <Input
+                id="addOnCharge"
+                value={formData.addOnCharge}
+                onChange={handleInputChange}
+                name="addOnCharge"
+                type="number"
+                placeholder="per km"
+              />
+            </div>
+            <div className="space-y-2">
+            <Label htmlFor="features">Features</Label>
+            <MultiSelect options={carSpecs} selected={selected} onChange={setSelected} placeholder="Select car features" />
             </div>
             
           </div>

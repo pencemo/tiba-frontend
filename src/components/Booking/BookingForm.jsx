@@ -8,6 +8,7 @@ import { DatePickerWithRange } from "../ui/datePicker";
 import { format } from "date-fns";
 import { bookingService } from "@/API/services/bookingService";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function BookingForm({ profile, car, formData, setFormData, onSuccess }) {
   const [dateRange, setDateRange] = useState({
@@ -44,15 +45,15 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
       const timeDiff = to.getTime() - from.getTime();
       const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; 
       if(days < 7){
-        return days * parseFloat(car.daily_rate.$numberDecimal);
+        return days * parseFloat(car.daily_rate.$numberDecimal).toFixed(2);
       }
       if(days >= 7 && days < 30){
         const weeklyRate = car.weekly_rate.$numberDecimal/7
-        return days * parseFloat(weeklyRate);
+        return days * parseFloat(weeklyRate).toFixed(2);
       }
       if(days >= 30){
         const monthlyRate = car.monthly_rate.$numberDecimal/30
-        return days * parseFloat(monthlyRate);
+        return days * parseFloat(monthlyRate).toFixed(2);
       }
       // return days * parseFloat(car.daily_rate.$numberDecimal);
     };
@@ -70,6 +71,7 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
   const [dateCheck, setDateCheck] = useState(false);
   const [dateMsg, setDateMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   
 
@@ -86,6 +88,7 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
   const handleCheckDate = async () => {
     // Check date logic here
     if (!dateRange || !dateRange.from || !dateRange.to){
+      setError(true);
       return alert("Please select a date range");
     }
     setIsLoading(true);
@@ -95,32 +98,34 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
       setDateMsg(response.message);
     }
     setIsLoading(false);
+    setError(false)
   }
   return (
-    <div className="space-y-4 border-t pt-6">
+    <div className="space-y-4 border md:p-7 p-4 rounded-xl shadow-xl">
       
         <div className="space-y-2">
           <Label>Rental Period</Label>
           <DatePickerWithRange
             date={dateRange}
             setDate={setDateRange}
-            className="w-full"
+            className="w-full "
+            error={error}
           />
         </div>
 
-        <div className="flex max-md:flex-col gap-4 md:divide-x">
+        <div className="space-y-5 divide-y">
           <div className="">
-            <h1 className="text-muted-foreground text-sm">Total Amount</h1>
+            <h1 className="text-muted-foreground text-sm">Selected Dates</h1>
+            <p className="text-foreground text-sm font-medium ">{dateRange?.from  ? format( dateRange.from, "PP"): 'No date selected'} - {dateRange?.to ? format(dateRange.to, "PP"): "No date selected" }</p>
+          </div>
+          <div className="">
+            <h1 className="text-muted-foreground text-sm mt-3">Total Amount</h1>
             <h1 className="md:text-3xl text-xl text-navy-600 dark:text-zinc-200 font-bold">{formData.totalCost.toFixed(2)} AED</h1>
             <h1 className="text-muted-foreground text-sm">for your selected days</h1>
-            {/* <h1 className="text-muted-foreground text-sm">Estimate {differenceInDays(dateRange?.to ? dateRange.to : new Date(), dateRange?.from ? dateRange.from : new Date())+1} Days</h1> */}
           </div>
-          <div className="md:pl-5">
-            <h1 className="text-muted-foreground text-sm">Selected Dates</h1>
-            <p className="text-foreground text-sm font-medium mt-1">{dateRange?.from  ? format( dateRange.from, "PP"): 'No from date selected'}</p>
-            <p className="text-foreground text-sm font-medium">{dateRange?.to ? format(dateRange.to, "PP"): "No to date selected" }</p>
-          </div>
+          
         </div>
+
         <div >
           {dateMsg !=='' && dateCheck &&
             <p className="text-emerald-700 text-sm p-3 rounded-md bg-emerald-50">{dateMsg}</p>
@@ -135,6 +140,7 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
         </Button>
         <Button disabled={!dateCheck} onClick={handleSubmit}  className="flex-1">BOOK NOW</Button>
       </div>
+      <Link to='/terms' className="text-xs text-muted-foreground hover:underline ">T&C apply for your bookings</Link>
 
     </div>
   );

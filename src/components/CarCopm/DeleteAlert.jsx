@@ -9,14 +9,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+import { Button } from "../ui/button"
   
   export function DeleteAlert({deleteFn}) {
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <button className="py-0.5 px-3 hover:bg-muted-foreground/50 rounded-lg">
+          <Button variant="destructive" size='sm' >
           Delete
-          </button>
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

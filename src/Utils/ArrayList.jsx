@@ -64,3 +64,31 @@ export const carCategory = [
   "Convertible",
   "City Car",
 ];
+
+export const carSpecs = [
+  "360-Degree Camera",
+  "Adaptive Cruise Control",
+  "Apple CarPlay/Android Auto",
+  "Automatic Climate Control",
+  "Automatic Emergency Braking",
+  "Blind Spot Monitoring",
+  "Bluetooth Connectivity",
+  "Front Air Bags",
+  "Heads-Up Display",
+  "Heated Seats",
+  "Keyless Entry",
+  "Lane Departure Warning",
+  "LCD Screens",
+  "LED Headlights",
+  "Leather Seats",
+  "Navigation System",
+  "Parking Sensors",
+  "Power Adjustable Seats",
+  "Premium Sound System",
+  "Rearview Camera",
+  "Remote Start",
+  "Sunroof/Moonroof",
+  "Tire Pressure Monitoring",
+  "USB Ports",
+  "Wireless Charging"
+];
