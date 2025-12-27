@@ -38,7 +38,7 @@ export default function StripeElement({car, formData, setFormData, showSuccess, 
         <div className="w-full min-h-44 max-w-xl mb-5 border bg-gray-50 dark:bg-zinc-800 rounded-lg overflow-hidden">
           
         <img
-          src={url+car.images[0]}
+          src={car.images[0]}
           className="object-contain w-full h-full"
           alt="Car preview"
         />

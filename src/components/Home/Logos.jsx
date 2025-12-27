@@ -12,9 +12,9 @@ function Logos() {
             blurBorders={true}
             blurBorderColor={'#fff'}
             >
-            {logos.map((logo) =>{
+            {logos.map((logo, i) =>{
               return (
-            <Slider.Slide className=''>
+            <Slider.Slide key={i}>
             <img className='w-24 grayscale hover:grayscale-0' src={logo} alt="" />
             </Slider.Slide>)
             })}

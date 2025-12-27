@@ -372,7 +372,7 @@ const handleCancel = () => {
                     <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 rounded-md grid place-content-center">
                       <Delete02Icon className="bg-white rounded-full p-1 cursor-pointer" onClick={() => deleteImage(image)} />
                     </div>
-                    <img className="w-full h-full border object-cover rounded-md" src={`${url}${image}`} alt="" />
+                    <img className="w-full h-full border object-cover rounded-md" src={`${image}`} alt="" />
                   </div>
                 ))}
               </div>

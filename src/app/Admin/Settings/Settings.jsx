@@ -52,7 +52,7 @@ function AdminSettings() {
     file
     ? URL.createObjectURL(file)
     : editProfil.profileImg
-    ? baseUrl+editProfil.profileImg
+    ? editProfil.profileImg
     : "https://preline.co/assets/img/160x160/img1.jpg";
   return (
     <div>

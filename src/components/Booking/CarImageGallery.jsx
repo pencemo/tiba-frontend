@@ -15,7 +15,7 @@ export default function CarImageGallery({ images }) {
     <div className=" grid md:grid-cols-9 gap-6">
       <div className="w-full flex items-center justify-center h-80 md:col-span-6 border overflow-hidden bg-gray-50 dark:bg-zinc-800 rounded-lg">
         <img
-          src={url+images[selectedImage]}
+          src={images[selectedImage]}
           className="object-contain h-full"
           alt="Car preview"
         />
@@ -30,7 +30,7 @@ export default function CarImageGallery({ images }) {
               selectedImage === index ? "ring-2 ring-primary" : ""
             }`}
           >
-            <img src={url+img} className="object-cover w-full h-full" alt="Thumbnail" />
+            <img src={img} className="object-cover w-full h-full" alt="Thumbnail" />
           </div>
         ))}
       </div>

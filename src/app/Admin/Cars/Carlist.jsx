@@ -211,7 +211,7 @@ function Carlist() {
                     <div className="w-14 h-10 bg-gray-200 rounded-md border overflow-hidden">
                       <img
                         className="w-full h-full object-cover"
-                        src={car.images.length > 0 ?`${url}${car.images[0]}` : imageDemo}
+                        src={car.images.length > 0 ? car.images[0] : imageDemo}
                         alt=""
                       />
                     </div>

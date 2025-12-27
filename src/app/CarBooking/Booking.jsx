@@ -195,7 +195,7 @@ function Pricing({ car }) {
           </div>
           <div className="overflow-hidden py-1.5">
             <div onClick={()=>setOpen(!isOpen)} className="flex items-center justify-between cursor-pointer">
-              <h1 className="flex items-center gap-2">Additional mileage charge <HiChevronDown className={`${isOpen? '-rotate-180': ''} transition-all `} /></h1>
+              <h1 className="flex items-center gap-2">Additional KM charge <HiChevronDown className={`${isOpen? '-rotate-180': ''} transition-all `} /></h1>
               <h1 className="font-semibold">
                 {car?.addOnCharge?.$numberDecimal || '-'} AED / km
               </h1>

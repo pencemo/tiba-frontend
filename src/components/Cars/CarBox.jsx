@@ -45,7 +45,7 @@ function CarBox({ car }) {
                 >
                   <img
                     loading="lazy"
-                    src={`${url}${img}`}
+                    src={`${img}`}
                     alt=""
                     className="w-full h-44  object-cover"
                   />
@@ -78,7 +78,7 @@ function CarBox({ car }) {
         </h1>
         <p className="text-sm text-muted-foreground capitalize">
         {/* Mileage: {car.mileage} - {car.transmission}, {car.color} */}
-        {car.showroomId?.city}, {car.showroomId?.country}
+        {car.showroomId?.city}, {car.showroomId?.state}
         </p>
         
         <div className="text-xs text-foreground/80 grid grid-cols-3 gap-1 capitalize mt-3">

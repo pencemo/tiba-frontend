@@ -35,6 +35,64 @@ const termsAndConditions = [
       ]
     },
     {
+      section: 'Return Policy',
+      items: [
+        {
+          title: 'Booking Duration',
+          description: [
+            'Selected "From" and "To" dates apply to a 24-hour period per day.',
+            'The selected time (e.g., 10:00 AM) applies to both the start and end dates.'
+          ]
+        },
+        {
+          title: 'Grace Period for Return',
+          description: [
+            'You have a 3-hour grace period after the return time without extra charges.',
+            'Example: If your return time is 10:00 AM, you can return by 1:00 PM.',
+          ]
+        },
+        {
+          title: 'Late Return Charges',
+          description: [
+            'Returning the car after the 3-hour grace period will result in an additional full-day charge.',
+            'No hourly payment beyond 3 hours – full 24-hour rate applies.',
+          ]
+        },
+        {
+          title: 'Change of Plans',
+          description: [
+            'Changes to your booking (dates/times) are subject to availability.',
+            'Late changes may include additional charges.'
+          ]
+        },
+        {
+          title: 'Early Return',
+          description: [
+            'Returning the car earlier than scheduled will not reduce the rental fee.'
+          ]
+        },
+      ]
+    },
+    {
+      section: "Vehicle Inspection",
+      items: [
+        {
+          title: "Pre-Rental Inspection",
+          description: [
+            "A thorough inspection of the vehicle will be conducted before rental.",
+            "Any pre-existing damages or issues must be noted and documented."
+          ]
+        },
+        {
+          title: "Post-Rental Inspection",
+          description: [
+            "A final inspection will be conducted upon vehicle return.",
+            "Any damages or issues found will be documented and may result in additional charges."
+          ]
+        }
+          ]
+    },
+    {
       section: "Payment Terms",
       items: [
         {

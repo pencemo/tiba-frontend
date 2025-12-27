@@ -22,7 +22,6 @@ export function Payment() {
 
   useEffect(() => {
     if (data && data.payments.data) {
-      console.log(data.payments.data);
       setFilteredUsers(data.payments.data);
       setPayments(data.payments.data);
       setHasMore(data.payments.has_more);

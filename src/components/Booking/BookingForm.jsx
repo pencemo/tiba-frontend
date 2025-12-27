@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { bookingService } from "@/API/services/bookingService";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { TimePicker } from "../ui/timePicker";
 
 export default function BookingForm({ profile, car, formData, setFormData, onSuccess }) {
   const [dateRange, setDateRange] = useState({
@@ -43,7 +44,7 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
       const from = new Date(dateRange.from);
       const to = new Date(dateRange.to);
       const timeDiff = to.getTime() - from.getTime();
-      const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; 
+      const days = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
       if(days < 7){
         return days * parseFloat(car.daily_rate.$numberDecimal).toFixed(2);
       }
@@ -76,6 +77,7 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
   
 
   const handleSubmit = async (e) => {
+   
     e.preventDefault();
     
     if(dateCheck){
@@ -100,23 +102,32 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
     setIsLoading(false);
     setError(false)
   }
+
   return (
     <div className="space-y-4 border md:p-7 p-4 rounded-xl shadow-xl">
       
-        <div className="space-y-2">
-          <Label>Rental Period</Label>
-          <DatePickerWithRange
-            date={dateRange}
-            setDate={setDateRange}
-            className="w-full "
-            error={error}
-          />
+        <div className="grid md:grid-cols-2 gap-2">
+          <div className="space-y-2">
+            <Label>Rental Dates</Label>
+            <DatePickerWithRange
+              date={dateRange}
+              setDate={setDateRange}
+              className="w-full "
+              error={error}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Pickup time</Label>
+            <TimePicker disabled date={dateRange} setDate={setDateRange} className="w-full"/>
+          </div>
+
+      
         </div>
 
-        <div className="space-y-5 divide-y">
+        <div className="space-y-4 divide-y">
           <div className="">
             <h1 className="text-muted-foreground text-sm">Selected Dates</h1>
-            <p className="text-foreground text-sm font-medium ">{dateRange?.from  ? format( dateRange.from, "PP"): 'No date selected'} - {dateRange?.to ? format(dateRange.to, "PP"): "No date selected" }</p>
+            <p className="text-foreground text-sm font-medium ">{dateRange?.from  ? format( new Date(dateRange.from), "PP, hh:mm a"): 'No date selected'} - {dateRange?.to ? format(new Date(dateRange.to), "PP, hh:mm a"): "No date selected" }</p>
           </div>
           <div className="">
             <h1 className="text-muted-foreground text-sm mt-3">Total Amount</h1>
@@ -134,13 +145,13 @@ export default function BookingForm({ profile, car, formData, setFormData, onSuc
             <p className="text-red-700 text-sm p-3 rounded-md bg-red-50">{dateMsg}</p>
           }
         </div>
-      <div className="flex max-md:flex-col gap-4 pt-2">
+      <div className="flex max-md:flex-col gap-2 pt-2">
         <Button onClick={handleCheckDate} className="flex-1 bg-background text-foreground border border-foreground hover:bg-gray-100 dark:hover:bg-zinc-800">
             {isLoading? <Loader2 className="animate-spin" />:'CHECK AVAILABILITY'}
         </Button>
         <Button disabled={!dateCheck} onClick={handleSubmit}  className="flex-1">BOOK NOW</Button>
       </div>
-      <Link to='/terms' className="text-xs text-muted-foreground hover:underline ">T&C apply for your bookings</Link>
+      <Link to='/terms' className="text-xs pt-2 text-muted-foreground hover:underline ">T&C apply for your bookings</Link>
 
     </div>
   );
